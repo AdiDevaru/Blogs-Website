@@ -1,0 +1,72 @@
+{% extends "base/main.html" %}
+
+
+{% block content %}
+
+<main class="singleProject my-md">
+    <div class="container">
+      <div class="layout">
+        <div class="column column--1of3">
+          <h3 class="singleProject__subtitle">Edit Options:</h3>
+          <div class="singleProject__toolStack">
+            {% if request.user == blog.user %}
+            <span class="tag tag--pill tag--sub tag--lg">
+              <a href='{% url "updateblog" blog.id %}'><small>Edit</small></a>
+            </span>
+            <span class="tag tag--pill tag--sub tag--lg">
+              <a href='{% url "deleteblog" blog.id %}'><small>Delete</small></a>
+            </span>
+            {% else %}
+            <span class="tag tag--pill tag--sub tag--lg">
+              <small>Only author can edit this</small>
+            </span>
+            {% endif %}
+          </div>
+
+        </div>
+        <div class="column column--2of3">
+          <h1 class="singleProject__developer">{{blog.user}}</h1>
+          <h2 class="singleProject__title">{{blog.title}}</h2>
+          <h3 class="singleProject__subtitle">Content...</h3>
+          <div class="singleProject__info">{{blog.description|linebreaksbr}}</div>
+
+          <div class="comments">
+            <h3 class="singleProject__subtitle">Feedback</h3>
+
+            {% comment %} <form class="form" action="#" method="POST">
+              <!-- Textarea -->
+              <div class="form__field">
+                <label for="formInput#textarea">Comments: </label>
+                <textarea class="input input--textarea" name="message" id="formInput#textarea"
+                  placeholder="Write your comments here..."></textarea>
+              </div>
+              <input class="btn btn--sub btn--lg" type="submit" value="Comments" />
+            </form> {% endcomment %}
+            <a href='{% url "addreview" blog.id %}'>Add Comment</a><hr>
+            <div class="commentList">
+              {% for review in blog.review_set.all %}
+              <div class="comment">
+                
+                <div class="comment__details">
+                  <p class="comment__author"><strong>{{review.user}}</strong>: {{review.vote}} vote</p>
+                  <p class="comment__info">Created : {{review.created}}  {% if review.created != review.updated %}<p>Updated : {{review.updated}}</p>{% endif %}</p>  
+
+                  <p class="comment__info">{{review.body|linebreaksbr}}</p>
+                  {% if request.user == review.user %}
+                  <a href='{% url "updatereview" review.id %}'>Edit</a> <a href='{% url "deletereview" review.id %}'>Delete</a> 
+                  {% endif %}
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </main>
+
+    
+{% endblock content %}    
+    
+

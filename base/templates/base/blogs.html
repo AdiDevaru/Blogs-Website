@@ -1,0 +1,49 @@
+{% extends "base/main.html" %}
+{% block content %}
+
+<main class="projects">
+  <section class="hero-section text-center">
+    <div class="container container--narrow">
+      <div class="hero-section__box">
+        <h2>Search for <span>Blogs</span></h2>
+      </div>
+
+      <div class="hero-section__search">
+        <form class="form" method="GET">
+          <div class="form__field">
+            <label for="formInput#search">Search By Blogs </label>
+            <input class="input input--text" type='text' name='search_item' placeholder="Search by Blog Title" value="{{search}}">
+          </div>
+
+          <input class="btn btn--sub btn--lg" type="submit" value="Search" />
+        </form>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section class="projectsList">
+    <div class="container">
+      <div class="grid grid--three">
+
+        {% for blog in blogs %}  
+        <div class="column">
+          <div class="card project">
+            <a href='{% url "blog" blog.id %}' class="project">
+              
+              <div class="card__body">
+                <h3 class="project__title">{{blog.title}}</h3>
+                <p><a class="project__author" href=""></a>{{blog.user}}</p>
+              </div>
+              
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock content %}
